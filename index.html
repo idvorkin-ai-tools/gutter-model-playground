@@ -4,10 +4,10 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Gutter Model Playground</title>
-<meta name="description" content="The same fixed scene — Larry and Igor in the Den — drawn by nine image models. Gutter's real Gemini 3 Pro pipeline is the house baseline; eight others run via OpenRouter. Real per-image cost, latency, and a canon check." />
-<meta property="og:title" content="Gutter Model Playground — nine image models, one scene" />
-<meta property="og:description" content="Larry + Igor in the Den, drawn nine ways. Gemini 3 Pro is the house baseline; the rest run via OpenRouter. Real cost, latency, and a canon check per render." />
-<meta property="og:image" content="https://idvorkin-ai-tools.github.io/gutter-model-playground/images/gemini-3-pro.webp" />
+<meta name="description" content="The same fixed scene — Larry and Igor in the Den — redrawn in November 2026 by the newest image model in every family on OpenRouter, with the September round kept for comparison. Real billed cost, latency, and a canon check per render." />
+<meta property="og:title" content="Gutter Model Playground — the latest image models, one scene" />
+<meta property="og:description" content="Larry + Igor in the Den, redrawn by the newest model in each family (Nov 2026), next to the September round. Real cost, latency, and a canon check per render." />
+<meta property="og:image" content="https://idvorkin-ai-tools.github.io/gutter-model-playground/images/gpt-image-2.6-sunburst.webp" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -112,6 +112,21 @@
   footer a{color:var(--ink-dim);text-decoration:underline;text-underline-offset:3px}
   .callout{background:var(--panel-2);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-top:18px;font-size:14.5px;color:var(--ink-dim)}
   .callout b{color:var(--ink)}
+
+  /* Nov 2026 round */
+  .date{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-dim)}
+  .ribbon.new{background:var(--accent-2)}
+  .ribbon.kept{background:var(--ink-dim)}
+  .arm{font-family:'IBM Plex Mono',monospace;font-size:12px;white-space:nowrap}
+  .arm.p{color:var(--pass)} .arm.f{color:var(--fail)}
+  td.up{font-family:'IBM Plex Mono',monospace;font-size:12.5px}
+  td.up .same{color:var(--ink-dim)}
+  details.prev{margin-top:56px;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:0 18px}
+  details.prev>summary{cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);padding:16px 0}
+  details.prev[open]>summary{border-bottom:1px solid var(--line-soft);margin-bottom:8px}
+  details.prev section{margin-top:34px}
+  details.prev section:last-child{margin-bottom:26px}
+  .prompt-box.wide{max-width:none}
 </style>
 </head>
 <body>
@@ -122,30 +137,286 @@
 
 <main>
   <h1>Gutter Model Playground</h1>
-  <p class="lead"><b>Gutter</b> is the cartoonist behind Igor's blog raccoons. It draws in one specific look — a plush, soft-vinyl "designer toy" render — and its two recurring characters have a strict canon. This page hands the <b>same fixed scene</b> to nine image models and asks a simple question: how close does each get to how Gutter really draws?</p>
-  <p class="lead">The scene is <b>Larry and Igor together in the Den</b>. <b>Gemini 3&nbsp;Pro</b>, run through Gutter's own pipeline, is the <span class="baseline-tag">house baseline</span> — the others are measured against it. Every render carries its <b>real</b> per-image cost (billed <span class="mono">usage.cost</span>, not the catalog rate), its latency, and a five-point canon check.</p>
+  <p class="lead"><b>Gutter</b> is the cartoonist behind Igor's blog raccoons. It draws in one specific look — a plush, soft-vinyl "designer toy" render — and its two recurring characters have a strict canon. This page hands the <b>same fixed scene</b> to every image model family on OpenRouter and asks: how close does each get to how Gutter really draws?</p>
+  <p class="lead"><b>November 2026 round:</b> the newest model in each family redrew the scene — three upgrades, three new families — with the same prompt and the same four references as September. Families with nothing newer keep their September render. Every figure is the <b>real</b> billed per-image cost, not the catalog rate. The September round is kept <a href="#previous">at the bottom</a> for side-by-side comparison.</p>
 
   <section id="scene">
     <h2>The one fixed scene</h2>
-    <div class="hero">
-      <figure>
-        <img src="images/gemini-3-pro.webp" alt="Larry, a bearded raccoon in a tweed waistcoat with one red lobster claw, sits in a green armchair in a warm attic; Igor, a chibi raccoon in rainbow glasses and a green TECHNOLOGIST tee with one blue and one yellow Croc, perches beside him. Plush soft-vinyl toy render." loading="eager" />
-        <figcaption><span class="baseline-tag">HOUSE BASELINE · Gemini 3 Pro</span><span>Gutter's own generator · gemini-3-pro-image-preview</span></figcaption>
-      </figure>
-      <details class="prompt-box" open>
+    <details class="prompt-box wide">
         <summary>The prompt every model received</summary>
-        <p>Built with the five-block ordering from Gutter's recipe: layout first, then the render style flagged as most important, then Larry (beard + one claw called out), then Igor (shirt text quoted), then the set. The four Gutter character/style reference images ride along on every call.</p>
+        <p>Built with the five-block ordering from Gutter's recipe: layout first, then the render style flagged as most important, then Larry (beard + one claw called out), then Igor (shirt text quoted), then the set. The four Gutter character/style reference images ride along on every call. The prompt text is identical to September's; the one change this round is reference order — Igor's canonical <span class="mono">raccoon-nerd</span> sheet now goes first (the gen-image raccoon rule), then Larry's canon, Larry in the armchair, and the Den plate.</p>
         <div class="blk"><b>RENDER STYLE — most important.</b> Plush-3D "house style": soft-vinyl designer-toy volume, felt-fiber texture, warm attic lamplight, shallow depth of field, film grain. NOT flat 2D, NOT line art, NOT cel-shaded, NOT vector. Fully opaque.</div>
         <div class="blk"><b>LARRY (left, in the armchair).</b> Bearded "Freud" raccoon; grey-white beard essential. Wire specs, brown tweed waistcoat, clipboard. Exactly ONE giant red lobster claw on the LEFT arm; the RIGHT hand is an ordinary paw holding a yellow pencil. No Crocs — brown lace-ups.</div>
         <div class="blk"><b>IGOR (right).</b> Chibi raccoon, oversized head, round RAINBOW-rimmed glasses, green tee reading "<b>TECHNOLOGIST</b>", denim shorts, ONE blue and ONE yellow Croc — never a matched pair.</div>
         <div class="blk"><b>THE DEN.</b> Warm attic study: dark beams, blue-grey walls, green leather armchair, bookshelves, glowing lamp. No text anywhere except TECHNOLOGIST on the shirt.</div>
       </details>
+    
+  </section>
+
+  <section id="upgrades">
+    <h2>What changed since September</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Family</th><th>Sep 2026</th><th>Nov 2026</th><th>Listed</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><span class="mname">Google</span></td><td class="up">Gemini 3 Pro <span class='same'>(direct)</span> · Gemini 3.1 Flash</td><td class="up">Nano Banana 2.1</td><td class="num">2026-10-06</td><td class="prov">upgraded</td></tr>
+          <tr><td><span class="mname">OpenAI</span></td><td class="up">GPT Image 2.5 flare · sunburst</td><td class="up">GPT Image 2.6 Flare · Sunburst</td><td class="num">2026-11-04</td><td class="prov">upgraded</td></tr>
+          <tr><td><span class="mname">ByteDance</span></td><td class="up">Seedream 5.0 Pro</td><td class="up">Seedream 5.5</td><td class="num">2026-11-12</td><td class="prov">upgraded</td></tr>
+          <tr><td><span class="mname">xAI</span></td><td class="up">Grok Imagine 2.0</td><td class="up"><span class='same'>Grok Imagine 2.0</span></td><td class="num">—</td><td class="prov">no newer model</td></tr>
+          <tr><td><span class="mname">Meta</span></td><td class="up">Muse Image</td><td class="up"><span class='same'>Muse Image</span></td><td class="num">—</td><td class="prov">no newer model</td></tr>
+          <tr><td><span class="mname">Qwen</span></td><td class="up">Qwen-Image 3</td><td class="up"><span class='same'>Qwen-Image 3</span></td><td class="num">—</td><td class="prov">no newer model (2.1 is the older line)</td></tr>
+          <tr><td><span class="mname">Recraft</span></td><td class="up">Recraft v4 styles</td><td class="up"><span class='same'>Recraft v4 styles</span></td><td class="num">—</td><td class="prov">newer v4.1 Flash v2 is text-only</td></tr>
+          <tr><td><span class="mname">Microsoft</span></td><td class="up">—</td><td class="up">MAI-Image 2.7</td><td class="num">2026-11-17</td><td class="prov">new family</td></tr>
+          <tr><td><span class="mname">Black Forest Labs</span></td><td class="up">—</td><td class="up">FLUX 3 Image</td><td class="num">2026-10-01</td><td class="prov">new family</td></tr>
+          <tr><td><span class="mname">Tencent</span></td><td class="up">—</td><td class="up">Hy Image 3.5 Preview</td><td class="num">2026-10-05</td><td class="prov">new family</td></tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
   <section id="table">
-    <h2>All nine, at a glance</h2>
+    <h2>This round, at a glance</h2>
     <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>Model</th><th>Listed on OpenRouter</th><th>$ / image</th><th>Latency</th>
+          <th title="style · claw · beard · TECHNOLOGIST · Crocs">Canon check</th><th title="Which of Larry's arms carries the claw; canon is his left">Claw arm</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="mname">GPT Image 2.6 Flare</span><br><span class="prov">openai/gpt-image-2.6-flare</span></td>
+            <td class="num">2026-11-04</td><td class="num">$0.218</td><td class="num">20.0 s</td>
+            <td class="checks"><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span></td><td><span class="arm p">left ✓</span></td>
+          </tr>
+          <tr>
+            <td><span class="mname">GPT Image 2.6 Sunburst</span><br><span class="prov">openai/gpt-image-2.6-sunburst</span></td>
+            <td class="num">2026-11-04</td><td class="num">$0.097</td><td class="num">41.2 s</td>
+            <td class="checks"><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span></td><td><span class="arm p">left ✓</span></td>
+          </tr>
+          <tr>
+            <td><span class="mname">MAI-Image 2.7</span><br><span class="prov">microsoft/mai-image-2.7</span></td>
+            <td class="num">2026-11-17</td><td class="num">$0.088</td><td class="num">44.5 s</td>
+            <td class="checks"><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span></td><td><span class="arm p">left ✓</span></td>
+          </tr>
+          <tr>
+            <td><span class="mname">Seedream 5.5</span><br><span class="prov">bytedance-seed/seedream-5-5</span></td>
+            <td class="num">2026-11-12</td><td class="num">$0.067</td><td class="num">42.6 s</td>
+            <td class="checks"><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span></td><td><span class="arm p">left ✓</span></td>
+          </tr>
+          <tr>
+            <td><span class="mname">Nano Banana 2.1</span><br><span class="prov">google/gemini-nano-banana-2.1</span></td>
+            <td class="num">2026-10-06</td><td class="num">$0.055</td><td class="num">20.7 s</td>
+            <td class="checks"><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span></td><td><span class="arm f">right ✗</span></td>
+          </tr>
+          <tr>
+            <td><span class="mname">FLUX 3 Image</span><br><span class="prov">black-forest-labs/flux-3-image</span></td>
+            <td class="num">2026-10-01</td><td class="num">$0.048</td><td class="num">27.7 s</td>
+            <td class="checks"><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span></td><td><span class="arm f">right ✗</span></td>
+          </tr>
+          <tr>
+            <td><span class="mname">Hy Image 3.5 Preview</span><br><span class="prov">tencent/hy-image-v3.5-preview</span></td>
+            <td class="num">2026-10-05</td><td class="num">$0.024</td><td class="num">32.8 s</td>
+            <td class="checks"><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span></td><td><span class="arm p">left ✓</span></td>
+          </tr>
+          <tr>
+            <td><span class="mname">Grok Imagine 2.0</span> <span class="mono" style="color:var(--ink-dim)">Sep</span><br><span class="prov">x-ai/grok-imagine-image-2.0</span></td>
+            <td class="num">2026-08-11</td><td class="num">$0.080</td><td class="num">19.5 s</td>
+            <td class="checks"><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span></td><td><span class="arm f">right ✗</span></td>
+          </tr>
+          <tr>
+            <td><span class="mname">Muse Image</span> <span class="mono" style="color:var(--ink-dim)">Sep</span><br><span class="prov">meta/muse-image</span></td>
+            <td class="num">2026-08-26</td><td class="num">$0.010</td><td class="num">26.1 s</td>
+            <td class="checks"><span class="ck w">◑</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span></td><td><span class="arm f">right ✗</span></td>
+          </tr>
+          <tr>
+            <td><span class="mname">Qwen-Image 3</span> <span class="mono" style="color:var(--ink-dim)">Sep</span><br><span class="prov">qwen/qwen-image-3</span></td>
+            <td class="num">2026-08-05</td><td class="num">$0.036</td><td class="num">59.6 s</td>
+            <td class="checks"><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span></td><td><span class="arm f">right ✗</span></td>
+          </tr>
+          <tr>
+            <td><span class="mname">Recraft v4 styles</span> <span class="mono" style="color:var(--ink-dim)">Sep</span><br><span class="prov">recraft/recraft-v4-styles</span></td>
+            <td class="num">2026-08-26</td><td class="num">$0.040</td><td class="num">29.9 s</td>
+            <td class="checks"><span class="ck w">◑</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span><span class="ck p">✓</span></td><td><span class="arm f">right ✗</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="legend">
+      <span><b>Canon check</b> (in order):</span>
+      <span>1 plush-3D style</span><span>2 exactly one red claw</span><span>3 grey-white beard</span>
+      <span>4 "TECHNOLOGIST" spelled right</span><span>5 mismatched Crocs</span>
+      <span><span class="ck p">✓</span> held · <span class="ck w">◑</span> drifted · <span class="ck f">✗</span> failed</span>
+    </div>
+    <p class="legend" style="margin-top:12px"><span><b>Claw arm</b> is reported separately: canon puts it on Larry's <i>left</i> arm (the viewer's right). One render per model, so treat it as a hint, not a rate. Rows marked <span class="mono">Sep</span> are September renders of families with no newer model.</span></p>
+  </section>
+
+  <section id="cards">
+    <h2>Every render, newest first</h2>
+    <div class="grid">
+      <article class="card">
+        <div class="imgwrap"><span class="ribbon new">NOV 2026</span><img src="images/gpt-image-2.6-flare.webp" alt="GPT Image 2.6 Flare render of the Den scene" loading="lazy" /></div>
+        <div class="body">
+          <div class="head"><span class="mname">GPT Image 2.6 Flare</span><span class="prov">OpenRouter · openai</span></div>
+          <div class="date">openai/gpt-image-2.6-flare · listed on OpenRouter 2026-11-04</div>
+          <div class="date">replaces GPT Image 2.5 flare</div>
+          <div class="metrics"><span><b>$0.218</b> / image</span><span><b>20.0 s</b></span><span><b>4</b> refs</span></div>
+          <div class="chips"><span class="chip p">style ✓</span><span class="chip p">1 claw ✓</span><span class="chip p">beard ✓</span><span class="chip p">TECHNOLOGIST ✓</span><span class="chip p">Crocs ✓</span></div>
+          <p class="verdict"><b>Richest set, and three times faster than 2.5 flare.</b> Twenty seconds instead of a minute, a little cheaper, and the warmest den of the round: globe, lamp, a tiny raccoon figurine on the shelf. Claw on Larry's correct (left) arm.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="imgwrap"><span class="ribbon new">NOV 2026</span><img src="images/gpt-image-2.6-sunburst.webp" alt="GPT Image 2.6 Sunburst render of the Den scene" loading="lazy" /></div>
+        <div class="body">
+          <div class="head"><span class="mname">GPT Image 2.6 Sunburst</span><span class="prov">OpenRouter · openai</span></div>
+          <div class="date">openai/gpt-image-2.6-sunburst · listed on OpenRouter 2026-11-04</div>
+          <div class="date">replaces GPT Image 2.5 sunburst</div>
+          <div class="metrics"><span><b>$0.097</b> / image</span><span><b>41.2 s</b></span><span><b>4</b> refs</span></div>
+          <div class="chips"><span class="chip p">style ✓</span><span class="chip p">1 claw ✓</span><span class="chip p">beard ✓</span><span class="chip p">TECHNOLOGIST ✓</span><span class="chip p">Crocs ✓</span></div>
+          <p class="verdict"><b>Same price as 2.5 sunburst, tidier staging.</b> Igor perches on the chair arm exactly as the prompt asks, Crocs mismatched, shirt crisp. Felt texture as rich as flare at under half the cost. Claw on the correct arm.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="imgwrap"><span class="ribbon new">NOV 2026</span><img src="images/mai-image-2.7.webp" alt="MAI-Image 2.7 render of the Den scene" loading="lazy" /></div>
+        <div class="body">
+          <div class="head"><span class="mname">MAI-Image 2.7</span><span class="prov">OpenRouter · microsoft</span></div>
+          <div class="date">microsoft/mai-image-2.7 · listed on OpenRouter 2026-11-17</div>
+          <div class="date">new family this round</div>
+          <div class="metrics"><span><b>$0.088</b> / image</span><span><b>44.5 s</b></span><span><b>4</b> refs</span></div>
+          <div class="chips"><span class="chip p">style ✓</span><span class="chip p">1 claw ✓</span><span class="chip p">beard ✓</span><span class="chip p">TECHNOLOGIST ✓</span><span class="chip p">Crocs ✓</span></div>
+          <p class="verdict"><b>New family, and a strong debut.</b> Microsoft's precision tier, listed four days ago. The most saturated, most detailed render here: hourglass, painting, two lamps, a footstool for Igor. Claw on the correct arm. Needed PNG references; it rejects webp.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="imgwrap"><span class="ribbon new">NOV 2026</span><img src="images/seedream-5-5.webp" alt="Seedream 5.5 render of the Den scene" loading="lazy" /></div>
+        <div class="body">
+          <div class="head"><span class="mname">Seedream 5.5</span><span class="prov">OpenRouter · bytedance</span></div>
+          <div class="date">bytedance-seed/seedream-5-5 · listed on OpenRouter 2026-11-12</div>
+          <div class="date">replaces Seedream 5.0 Pro</div>
+          <div class="metrics"><span><b>$0.067</b> / image</span><span><b>42.6 s</b></span><span><b>4</b> refs</span></div>
+          <div class="chips"><span class="chip p">style ✓</span><span class="chip p">1 claw ✓</span><span class="chip p">beard ✓</span><span class="chip p">TECHNOLOGIST ✓</span><span class="chip p">Crocs ✓</span></div>
+          <p class="verdict"><b>Cheaper and nearly three times faster than 5.0 Pro.</b> 43 seconds instead of two minutes, 6.7¢ instead of 9.9¢. Soft, faithful plush render, claw on the correct arm. The composition is the Den plate's (lamp centred under the eaves), so the set reference is clearly being read.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="imgwrap"><span class="ribbon new">NOV 2026</span><img src="images/nano-banana-2.1.webp" alt="Nano Banana 2.1 render of the Den scene" loading="lazy" /></div>
+        <div class="body">
+          <div class="head"><span class="mname">Nano Banana 2.1</span><span class="prov">OpenRouter · google</span></div>
+          <div class="date">google/gemini-nano-banana-2.1 · listed on OpenRouter 2026-10-06</div>
+          <div class="date">replaces Gemini 3 Pro + Gemini 3.1 Flash</div>
+          <div class="metrics"><span><b>$0.055</b> / image</span><span><b>20.7 s</b></span><span><b>4</b> refs</span></div>
+          <div class="chips"><span class="chip p">style ✓</span><span class="chip p">1 claw ✓</span><span class="chip p">beard ✓</span><span class="chip p">TECHNOLOGIST ✓</span><span class="chip p">Crocs ✓</span></div>
+          <p class="verdict"><b>Google's successor to both Gemini cards.</b> OpenRouter lists it as succeeding Nano Banana 2 (3.1 Flash) and Nano Banana Pro (3 Pro). Clean canon, cheaper than either, 21 seconds. Still mirrors the claw onto Larry's right arm, as both Geminis did in September.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="imgwrap"><span class="ribbon new">NOV 2026</span><img src="images/flux-3-image.webp" alt="FLUX 3 Image render of the Den scene" loading="lazy" /></div>
+        <div class="body">
+          <div class="head"><span class="mname">FLUX 3 Image</span><span class="prov">OpenRouter · black-forest-labs</span></div>
+          <div class="date">black-forest-labs/flux-3-image · listed on OpenRouter 2026-10-01</div>
+          <div class="date">new family this round</div>
+          <div class="metrics"><span><b>$0.048</b> / image</span><span><b>27.7 s</b></span><span><b>4</b> refs</span></div>
+          <div class="chips"><span class="chip p">style ✓</span><span class="chip p">1 claw ✓</span><span class="chip p">beard ✓</span><span class="chip p">TECHNOLOGIST ✓</span><span class="chip p">Crocs ✓</span></div>
+          <p class="verdict"><b>New family: Black Forest Labs' flagship.</b> On-model plush and full canon for under 5¢, but Igor floats in mid-air with nothing under him, and the claw is mirrored to Larry's right arm. Rejects the <span class="mono">output_format</span> parameter.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="imgwrap"><span class="ribbon new">NOV 2026</span><img src="images/hy-image-3.5-preview.webp" alt="Hy Image 3.5 Preview render of the Den scene" loading="lazy" /></div>
+        <div class="body">
+          <div class="head"><span class="mname">Hy Image 3.5 Preview</span><span class="prov">OpenRouter · tencent</span></div>
+          <div class="date">tencent/hy-image-v3.5-preview · listed on OpenRouter 2026-10-05</div>
+          <div class="date">new family this round</div>
+          <div class="metrics"><span><b>$0.024</b> / image</span><span><b>32.8 s</b></span><span><b>4</b> refs</span></div>
+          <div class="chips"><span class="chip p">style ✓</span><span class="chip p">1 claw ✓</span><span class="chip p">beard ✓</span><span class="chip p">TECHNOLOGIST ✓</span><span class="chip p">Crocs ✓</span></div>
+          <p class="verdict"><b>New family, and the cheapest new render.</b> Tencent's preview model holds the whole canon for 2.4¢, claw on the correct arm, though the claw is a fat curled lump rather than a crisp pincer. Igor hovers off the floor, like FLUX.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="imgwrap"><span class="ribbon kept">SEP RENDER · NO NEWER MODEL</span><img src="images/grok-imagine-2.0.webp" alt="Grok Imagine 2.0 render of the Den scene" loading="lazy" /></div>
+        <div class="body">
+          <div class="head"><span class="mname">Grok Imagine 2.0</span><span class="prov">OpenRouter · x-ai</span></div>
+          <div class="date">x-ai/grok-imagine-image-2.0 · listed on OpenRouter 2026-08-11</div>
+          
+          <div class="metrics"><span><b>$0.080</b> / image</span><span><b>19.5 s</b></span><span><b>2</b> refs</span></div>
+          <div class="chips"><span class="chip p">style ✓</span><span class="chip p">1 claw ✓</span><span class="chip p">beard ✓</span><span class="chip p">TECHNOLOGIST ✓</span><span class="chip p">Crocs ✓</span></div>
+          <p class="verdict"><b>No newer Grok on OpenRouter.</b> September render, shown again so every family is on one grid.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="imgwrap"><span class="ribbon kept">SEP RENDER · NO NEWER MODEL</span><img src="images/muse-image.webp" alt="Muse Image render of the Den scene" loading="lazy" /></div>
+        <div class="body">
+          <div class="head"><span class="mname">Muse Image</span><span class="prov">OpenRouter · meta</span></div>
+          <div class="date">meta/muse-image · listed on OpenRouter 2026-08-26</div>
+          
+          <div class="metrics"><span><b>$0.010</b> / image</span><span><b>26.1 s</b></span><span><b>4</b> refs</span></div>
+          <div class="chips"><span class="chip w">style ◑</span><span class="chip p">1 claw ✓</span><span class="chip p">beard ✓</span><span class="chip p">TECHNOLOGIST ✓</span><span class="chip p">Crocs ✓</span></div>
+          <p class="verdict"><b>No newer Muse on OpenRouter.</b> Still Gutter's house default and still the cheapest at 1¢. September render: best raw felt, but naturalistic grey raccoons rather than the warm-brown chibi palette.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="imgwrap"><span class="ribbon kept">SEP RENDER · NO NEWER MODEL</span><img src="images/qwen-image-3.webp" alt="Qwen-Image 3 render of the Den scene" loading="lazy" /></div>
+        <div class="body">
+          <div class="head"><span class="mname">Qwen-Image 3</span><span class="prov">OpenRouter · qwen</span></div>
+          <div class="date">qwen/qwen-image-3 · listed on OpenRouter 2026-08-05</div>
+          
+          <div class="metrics"><span><b>$0.036</b> / image</span><span><b>59.6 s</b></span><span><b>2</b> refs</span></div>
+          <div class="chips"><span class="chip p">style ✓</span><span class="chip p">1 claw ✓</span><span class="chip p">beard ✓</span><span class="chip p">TECHNOLOGIST ✓</span><span class="chip p">Crocs ✓</span></div>
+          <p class="verdict"><b>No newer Qwen.</b> Qwen Image 2.1 Pro/Turbo were listed later (Oct 16) but belong to the lower-numbered 2.x line, and 3 Pro was listed the same day as 3. September render.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="imgwrap"><span class="ribbon kept">SEP RENDER · NO NEWER MODEL</span><img src="images/recraft-v4-styles.webp" alt="Recraft v4 styles render of the Den scene" loading="lazy" /></div>
+        <div class="body">
+          <div class="head"><span class="mname">Recraft v4 styles</span><span class="prov">OpenRouter · recraft</span></div>
+          <div class="date">recraft/recraft-v4-styles · listed on OpenRouter 2026-08-26</div>
+          
+          <div class="metrics"><span><b>$0.040</b> / image</span><span><b>29.9 s</b></span><span><b>4</b> refs</span></div>
+          <div class="chips"><span class="chip w">style ◑</span><span class="chip p">1 claw ✓</span><span class="chip p">beard ✓</span><span class="chip p">TECHNOLOGIST ✓</span><span class="chip p">Crocs ✓</span></div>
+          <p class="verdict"><b>No newer Recraft that takes references.</b> The only later Recraft, v4.1 Flash v2 (Nov 13), accepts text only, so it cannot carry the raccoon reference. September render.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="findings">
+    <h2>What the new round showed</h2>
+    <div class="made">
+      <p><b>Canon is still solved by the references.</b> All seven new renders held every canon point — one red claw, the beard, "TECHNOLOGIST" spelled right, mismatched blue and yellow Crocs — and all seven stayed in the warm-brown plush look. None drifted the way Muse and Recraft did in September.</p>
+      <p><b>The upgrades got faster and cheaper, not just prettier.</b> GPT Image 2.6 Flare drew in 20 seconds (2.5 flare took 61) for 22¢ instead of 26¢. Seedream 5.5 took 43 seconds instead of two minutes, for 6.7¢. Nano Banana 2.1 does in one model what September needed two Geminis for, at 5.5¢.</p>
+      <p><b>Claw chirality moved a little.</b> In September only the two GPT renders put the claw on Larry's left arm. This round five of seven did: both GPT 2.6 models, MAI-Image 2.7, Seedream 5.5 and Hy Image 3.5. Nano Banana 2.1 and FLUX 3 still mirror it. Two caveats: it is one render per model, and Igor's canon sheet now goes first in the reference stack, so the order change could account for some of it.</p>
+      <p><b>Staging is the new weak spot.</b> FLUX 3 and Hy Image 3.5 both left Igor floating in mid-air beside the chair; the prompt says "perched on the arm of the chair or a stool".</p>
+    </div>
+  </section>
+
+  <section id="how">
+    <h2>How this was made</h2>
+    <div class="made">
+      <p>Every render runs through <b>OpenRouter's</b> image endpoint (<span class="mono">POST /api/v1/images</span>), one image per model, using the September prompt unchanged. Models came from <span class="mono">GET /api/v1/models?output_modalities=image</span> on 2026-11-21; "listed" dates are when OpenRouter added the model, not the vendor's release date.</p>
+      <ul class="steps">
+        <li>Four Gutter references ride on every call, Igor's canonical sheet first: Igor's canon, Larry's canon, Larry in the armchair, and a Den plate. All seven new models took all four.</li>
+        <li>Two models needed small request changes: FLUX 3 rejects <span class="mono">output_format</span>, and MAI-Image 2.7 accepts only PNG or JPEG references, so the same four images were sent as PNG.</li>
+        <li>Cost is the <b>billed</b> <span class="mono">usage.cost</span> from each OpenRouter response.</li>
+        <li>Each render was judged by eye against the canon, with zoomed crops where a detail was ambiguous. Images are stored as 1024px webp.</li>
+      </ul>
+      <p class="note">Spend for the November round: <b>$0.60</b> for seven renders. The September round cost about $0.96 for ten.</p>
+    </div>
+  </section>
+
+  <details class="prev" id="previous">
+    <summary>Previous round (Sep 2026) — nine models, Gemini 3 Pro baseline</summary>
+    <section>
+      <h2>The September baseline</h2>
+      <div class="made"><p class="note">In September, Gutter drew with Gemini 3 Pro, so that render was the bar the other eight were judged against. Gutter has since moved to Muse Image as its house default (2026-09-26); the baseline label below is September's.</p></div>
+      <div class="hero" style="grid-template-columns:1fr;max-width:620px;margin-top:18px">
+        <figure>
+        <img src="images/gemini-3-pro.webp" alt="Larry, a bearded raccoon in a tweed waistcoat with one red lobster claw, sits in a green armchair in a warm attic; Igor, a chibi raccoon in rainbow glasses and a green TECHNOLOGIST tee with one blue and one yellow Croc, perches beside him. Plush soft-vinyl toy render." loading="eager" />
+        <figcaption><span class="baseline-tag">HOUSE BASELINE · Gemini 3 Pro</span><span>Gutter's own generator · gemini-3-pro-image-preview</span></figcaption>
+      </figure>
+      </div>
+    </section>
+    <section>
+      <h2>All nine, at a glance</h2>
+      <div class="tbl-wrap">
       <table>
         <thead><tr>
           <th>Model</th><th>Provider</th><th>$ / image</th><th>Latency</th>
@@ -207,11 +478,10 @@
       <span><span class="ck p">✓</span> held · <span class="ck w">◑</span> drifted · <span class="ck f">✗</span> failed</span>
     </div>
     <p class="legend" style="margin-top:12px"><span>* Google's direct image API returns no billed-cost field; ~$0.134 is the published Nano-Banana-Pro per-image list rate (this render used 1,120 image output tokens). Every OpenRouter figure is the real billed <span class="mono">usage.cost</span>.</span></p>
-  </section>
-
-  <section id="cards">
-    <h2>Every render, judged</h2>
-    <div class="grid">
+    </section>
+    <section>
+      <h2>Every render, judged</h2>
+      <div class="grid">
 
       <article class="card base">
         <div class="imgwrap"><span class="ribbon">HOUSE BASELINE</span><img src="images/gemini-3-pro.webp" alt="Gemini 3 Pro render of the Den scene" loading="lazy" /></div>
@@ -304,36 +574,22 @@
       </article>
 
     </div>
-  </section>
-
-  <section id="findings">
-    <h2>What the comparison showed</h2>
-    <div class="made">
+    </section>
+    <section>
+      <h2>What the comparison showed</h2>
+      <div class="made">
       <p><b>The reference images do the heavy lifting.</b> All nine models held the four character canon points — exactly one red claw, the grey-white beard, "TECHNOLOGIST" spelled correctly, and mismatched blue+yellow Crocs. With four strong reference images attached, even the cheapest model kept the characters on-model. That is the real headline: canon is a reference-image problem, not a prompt-wording problem.</p>
       <p><b>Where they split is the <i>look</i>.</b> Seven of nine reproduced Gutter's warm-brown chibi plush style. Two held the canon but drifted: <b>Recraft</b> flattened the render and added an unrequested comic border, and <b>Muse</b> — while producing the most convincing felt texture of all — re-drew the pair as naturalistic grey raccoons rather than the house palette.</p>
       <p><b>Chirality is still unsolved.</b> The claw belongs on Larry's left arm. Only the two GPT-Image renders placed it there; every other model, <i>including the Gemini Pro baseline</i>, mirrored it onto the wrong arm. Passing a reference that shows the correct side does not fix it — a known limitation of these models.</p>
       <div class="callout"><b>Best value:</b> Gemini 3.1 Flash — a near-baseline render in 10 seconds for 7¢. <b>Best-looking challenger:</b> GPT-Image 2.5 flare, at 25¢ and a minute. <b>Most texture per cent:</b> Muse at 1¢, if you can live with the palette drift.</div>
     </div>
-  </section>
-
-  <section id="how">
-    <h2>How this was made</h2>
-    <div class="made">
-      <p>One prompt, one scene, nine models. The baseline runs through <b>Gutter's real pipeline</b>: <span class="mono">gemini-3-pro-image-preview</span> via the <span class="mono">gen-image</span> skill on a Google API key, the same path every blog raccoon is drawn with. The other eight run through <b>OpenRouter's</b> image endpoint (<span class="mono">POST /api/v1/images</span>).</p>
-      <ul class="steps">
-        <li>The prompt follows Gutter's five-block recipe: layout, then render-style (flagged most important), then Larry, then Igor with the shirt text quoted, then the set.</li>
-        <li>Four Gutter reference images ride on every call — Larry in the house style, Larry's canon sheet, Igor's canon sheet, and a Den plate. Two models cap below four refs and ran on two or three; the rest took all four.</li>
-        <li>Cost is the <b>billed</b> <span class="mono">usage.cost</span> from each OpenRouter response, not the catalog price — the catalog under-quotes by up to 30×.</li>
-        <li>Each render was judged by eye against the canon: plush-3D style, one red claw, the beard, the shirt spelling, and mismatched Crocs. Shirt text and Crocs were confirmed on zoomed crops where the full frame was ambiguous.</li>
-      </ul>
-      <p class="note">Total spend to build this page: about <b>$0.96</b> across all ten renders (nine models plus one baseline re-run for timing).</p>
-    </div>
-  </section>
+    </section>
+  </details>
 </main>
 
 <footer>
-  <p>Built by Gutter, Igor Dvorkin's blog cartoonist. Baseline: gemini-3-pro-image-preview via the gen-image skill. Challengers via openrouter.ai. Canon per the Gutter character + recipe docs.</p>
-  <p><b>Want to click "regenerate"?</b> This is a static snapshot — the images were rendered once and committed. A live, click-to-regenerate version (pick a model, re-run the scene, watch cost tick up) needs a Cockpit backend to hold the API keys and drive the models; it can't run from a static GitHub Pages page. Filed as a follow-up.</p>
+  <p>Built by Gutter, Igor Dvorkin's blog cartoonist. November round: seven new renders via openrouter.ai. September round: Gemini 3 Pro baseline via the gen-image skill plus eight OpenRouter models. Canon per the Gutter character + recipe docs.</p>
+  <p><b>Want to click "regenerate"?</b> This is a static snapshot — the images were rendered once and committed. A live, click-to-regenerate version needs a backend to hold the API keys; it can't run from a static GitHub Pages page.</p>
   <p>idvorkin-ai-tools · <a href="https://github.com/idvorkin-ai-tools/gutter-model-playground">source</a> · <a href="https://idvorkin-ai-tools.github.io/">all explainers</a></p>
 </footer>
 <!-- Private comments mode, inert unless ?annotate=1 (see assets/annotate.js in idvorkin-ai-tools.github.io) -->
